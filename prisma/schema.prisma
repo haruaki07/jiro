@@ -1,0 +1,83 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Board {
+  id        Int       @id @default(autoincrement())
+  name      String
+  desc      String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime?
+
+  author   User   @relation(fields: [authorId], references: [id])
+  authorId Int
+  lists    List[]
+  tasks    Task[]
+}
+
+model List {
+  id        Int       @id @default(autoincrement())
+  name      String
+  order     Int       @default(0)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime?
+
+  authorId Int
+  author   User   @relation(fields: [authorId], references: [id])
+  tasks    Task[]
+  board    Board  @relation(fields: [boardId], references: [id])
+  boardId  Int
+}
+
+model UsersOnTask {
+  task   Task @relation(fields: [taskId], references: [id])
+  taskId Int
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
+
+  @@id([userId, taskId])
+}
+
+model Task {
+  id        Int       @id @default(autoincrement())
+  name      String
+  desc      String
+  order     Int       @default(0)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime?
+
+  list     List          @relation(fields: [listId], references: [id])
+  listId   Int
+  authorId Int
+  author   User          @relation(fields: [authorId], references: [id])
+  users    UsersOnTask[]
+  board    Board         @relation(fields: [boardId], references: [id])
+  boardId  Int
+}
+
+model Session {
+  id        String   @id
+  createdAt DateTime @default(now())
+  expiredAt DateTime
+
+  user   User @relation(fields: [userId], references: [id])
+  userId Int
+}
+
+model User {
+  id            Int           @id @default(autoincrement())
+  name          String
+  email         String        @unique
+  password      String
+  avatar        String?
+  tasks         Task[]
+  assignedTasks UsersOnTask[]
+  lists         List[]
+  boards        Board[]
+  Session       Session[]
+}
