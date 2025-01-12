@@ -1,17 +1,10 @@
 <script>
 	import { Avatar, Popover } from '@skeletonlabs/skeleton-svelte';
 	import { CaretDown } from 'phosphor-svelte';
-
-	let openState = $state(false);
-
-	function popoverClose() {
-		openState = false;
-	}
 </script>
 
 <Popover
-	bind:open={openState}
-	positioning={{ placement: 'top' }}
+	positioning={{ placement: 'top-end' }}
 	contentBase="card bg-surface-200-800 py-2 w-44"
 	triggerBase="flex items-center gap-x-2"
 	arrow

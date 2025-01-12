@@ -32,7 +32,7 @@
 				<span class="label-required label-text">Password</span>
 				<input type="password" name="password" class="input" required />
 			</label>
-			<button type="submit" class="btn w-full preset-filled">Sign In</button>
+			<button type="submit" class="btn w-full preset-filled-primary-500">Sign In</button>
 		</form>
 		<div class="text-md mt-6 text-center">
 			Don't have an account?
