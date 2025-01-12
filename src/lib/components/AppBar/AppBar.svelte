@@ -16,7 +16,7 @@
 	{/snippet}
 	{#snippet trail()}
 		{#if page.data.user}
-			<UserDropdown />
+			<UserDropdown user={page.data.user} />
 		{:else}
 			<a href="/login" class="btn hover:preset-tonal">Log In</a>
 			<a href="/register" class="btn preset-filled-primary-500">Sign Up</a>
