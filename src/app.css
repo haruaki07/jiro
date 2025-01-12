@@ -1,0 +1,8 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+.label-required::after {
+	content: '*';
+	@apply ml-1 text-error-800;
+}
