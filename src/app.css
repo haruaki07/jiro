@@ -6,3 +6,12 @@
 	content: '*';
 	@apply ml-1 text-error-800;
 }
+
+html,
+body {
+	height: 100%;
+}
+
+body {
+	@apply grid grid-rows-[auto_1fr];
+}

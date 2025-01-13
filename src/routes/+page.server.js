@@ -33,7 +33,7 @@ export const actions = {
 			}
 		});
 
-		return { success: true };
+		return { success: true, slug };
 	}
 };
 
@@ -42,7 +42,6 @@ export async function load({ locals }) {
 	const boards = await prisma.board.findMany({ where: { authorId: locals.user.id } });
 
 	return {
-		user: locals.user,
 		boards
 	};
 }

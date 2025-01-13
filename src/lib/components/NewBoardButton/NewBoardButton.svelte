@@ -16,8 +16,8 @@
 		return async ({ result, action }) => {
 			if (result.type === 'success') {
 				message = null;
-				// todo: redirect to new board
 				openState = false;
+				goto(`/boards/${result.data.slug}`);
 			} else if (result.type === 'failure') {
 				message = result.data.message;
 			} else {
