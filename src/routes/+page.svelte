@@ -6,7 +6,7 @@
 
 <NewBoardButton />
 
-<div class="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+<div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
 	{#each data.boards as board}
 		<a href="/boards/{board.slug}" class="card h-36 p-6 shadow-xl bg-surface-100-900">
 			<h1 class="h5 mb-2 truncate font-bold">{board.name}</h1>
