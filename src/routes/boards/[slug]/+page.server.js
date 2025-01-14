@@ -10,8 +10,14 @@ export const load = async ({ params, locals }) => {
 	const board = await prisma.board.findFirst({
 		where: {
 			slug: params.slug
+		},
+		include: {
+			lists: {
+				orderBy: { order: 'asc' }
+			}
 		}
 	});
+
 	if (!board) {
 		return fail(404);
 	}
