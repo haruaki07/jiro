@@ -1,5 +1,5 @@
 <script>
-	import NewBoardButton from '$lib/components/NewBoardButton/NewBoardButton.svelte';
+	import NewBoardButton from '$lib/components/Board/NewBoardButton.svelte';
 
 	let { data } = $props();
 </script>

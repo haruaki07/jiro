@@ -8,6 +8,7 @@ export const actions = {
 		const data = await request.formData();
 		const name = data.get('name');
 		const boardId = +data.get('boardId');
+		const listId = +data.get('listId');
 		const order = +data.get('order');
 
 		if (!name) {
@@ -18,22 +19,25 @@ export const actions = {
 			return fail(400, { message: 'boardId is required' });
 		}
 
+		if (!listId) {
+			return fail(400, { message: 'listId is required' });
+		}
+
 		if (!order) {
 			return fail(400, { message: 'order is required' });
 		}
 
-		const list = await prisma.list.create({
+		const task = await prisma.task.create({
 			data: {
 				name,
 				order,
+				desc: '',
+				list: { connect: { id: listId } },
 				board: { connect: { id: boardId } },
 				author: { connect: { id: locals.user.id } }
-			},
-			include: {
-				tasks: true
 			}
 		});
 
-		return { success: true, list };
+		return { success: true, task };
 	}
 };

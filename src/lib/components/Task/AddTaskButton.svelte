@@ -5,7 +5,7 @@
 	import { Plus } from 'phosphor-svelte';
 	import { tick } from 'svelte';
 
-	let { lastOrder } = $props();
+	let { listId, lastOrder } = $props();
 
 	let boardState = getBoardState();
 	let order = lastOrder + 32;
@@ -28,7 +28,7 @@
 	const enhanceForm = () => {
 		return async ({ result, action }) => {
 			if (result.type === 'success') {
-				boardState.addList(result.data.list);
+				boardState.addTask(result.data.task, listId);
 				close();
 			} else if (result.type === 'failure') {
 				message = result.data.message;
@@ -42,21 +42,22 @@
 {#if openState}
 	<form
 		method="post"
-		action="/lists"
+		action="/tasks"
 		use:enhance={enhanceForm}
-		class="card w-80 flex-shrink-0 bg-surface-800 p-4"
+		class="card w-full border border-surface-500 bg-surface-600 p-4 shadow"
 	>
 		{#if message}
 			<p class="mb-4 text-sm text-error-600">{message}</p>
 		{/if}
 
 		<input type="hidden" required name="boardId" value={boardState.board.id} />
+		<input type="hidden" required name="listId" value={listId} />
 		<input type="hidden" required name="order" value={order} />
 		<input
 			type="text"
-			class="input"
+			class="w-full border-none bg-transparent p-0 font-medium text-white placeholder:text-surface-300 focus:border-none focus:outline-none focus:ring-0"
 			bind:this={inputEl}
-			placeholder="List name"
+			placeholder="Task name"
 			name="name"
 			autocomplete="off"
 			required
@@ -69,10 +70,10 @@
 {:else}
 	<button
 		type="button"
-		class="btn w-80 flex-shrink-0 justify-start text-surface-200 hover:text-white hover:preset-tonal"
+		class="btn mx-1 mb-1 text-surface-200 hover:text-white hover:preset-tonal"
 		onclick={open}
 	>
 		<Plus size={20} />
-		Add a list
+		Add a task
 	</button>
 {/if}

@@ -13,7 +13,12 @@ export const load = async ({ params, locals }) => {
 		},
 		include: {
 			lists: {
-				orderBy: { order: 'asc' }
+				orderBy: { order: 'asc' },
+				include: {
+					tasks: {
+						orderBy: { order: 'asc' }
+					}
+				}
 			}
 		}
 	});

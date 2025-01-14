@@ -1,7 +1,9 @@
 import { getContext, setContext } from 'svelte';
 
 /**
- * @typedef {import('@prisma/client').Board & { lists: import('@prisma/client').List[] }} Board
+ * @typedef {import('@prisma/client').Task} Task
+ * @typedef {import('@prisma/client').List & { tasks: Task[] }} List
+ * @typedef {import('@prisma/client').Board & { lists: List[] }} Board
  */
 
 class BoardState {
@@ -22,6 +24,16 @@ class BoardState {
 
 	removeList(listId) {
 		this.board.lists = this.board.lists.filter((l) => l.id !== listId);
+	}
+
+	addTask(task, listId) {
+		const list = this.board.lists.find((l) => l.id === listId);
+		list.tasks.push(task);
+	}
+
+	removeTask(taskId, listId) {
+		const list = this.board.lists.find((l) => l.id === listId);
+		list.tasks = list.tasks.filter((t) => t.id !== taskId);
 	}
 }
 
