@@ -24,7 +24,7 @@
 
 	let message = $state(null);
 
-	/** @type {import("@sveltejs/kit").SubmitFunction}*/
+	/** @type {import('@sveltejs/kit').SubmitFunction} */
 	const enhanceForm = () => {
 		return async ({ result, action }) => {
 			if (result.type === 'success') {
@@ -70,7 +70,7 @@
 {:else}
 	<button
 		type="button"
-		class="btn mx-1 mb-1 text-surface-200 hover:text-white hover:preset-tonal"
+		class="btn text-surface-200 hover:text-white hover:preset-tonal"
 		onclick={open}
 	>
 		<Plus size={20} />

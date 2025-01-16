@@ -23,7 +23,7 @@
 	bind:open
 	positioning={{ placement: 'bottom-end', offset: { crossAxis: 0, mainAxis: 0 } }}
 	contentBase="card bg-surface-100-900 py-2 w-44"
-	triggerBase="block"
+	triggerBase="block flex-shrink-0 pr-4"
 	arrow
 	arrowBackground="!bg-surface-100 dark:!bg-surface-900"
 >

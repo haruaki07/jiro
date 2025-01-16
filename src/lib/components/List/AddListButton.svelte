@@ -24,7 +24,7 @@
 
 	let message = $state(null);
 
-	/** @type {import("@sveltejs/kit").SubmitFunction}*/
+	/** @type {import('@sveltejs/kit').SubmitFunction} */
 	const enhanceForm = () => {
 		return async ({ result, action }) => {
 			if (result.type === 'success') {
@@ -44,7 +44,7 @@
 		method="post"
 		action="/lists"
 		use:enhance={enhanceForm}
-		class="card w-80 flex-shrink-0 bg-surface-800 p-4"
+		class="card w-72 flex-shrink-0 bg-surface-800 p-3"
 	>
 		{#if message}
 			<p class="mb-4 text-sm text-error-600">{message}</p>
@@ -61,7 +61,7 @@
 			autocomplete="off"
 			required
 		/>
-		<div class="mt-3 flex w-full flex-row-reverse items-center justify-start gap-1">
+		<div class="mt-4 flex w-full flex-row-reverse items-center justify-start gap-1">
 			<button type="submit" class="btn btn-sm preset-filled">Add</button>
 			<button type="button" class="btn btn-sm hover:preset-tonal" onclick={close}> Cancel </button>
 		</div>

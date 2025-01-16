@@ -1,6 +1,7 @@
 import forms from '@tailwindcss/forms';
 import { skeleton, contentPath } from '@skeletonlabs/skeleton/plugin';
 import { cerberus } from '@skeletonlabs/skeleton/themes';
+import scrollbar from 'tailwind-scrollbar';
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -13,6 +14,7 @@ export default {
 		forms,
 		skeleton({
 			themes: [cerberus]
-		})
+		}),
+		scrollbar
 	]
 };
