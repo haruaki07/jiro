@@ -13,5 +13,5 @@ body {
 }
 
 body {
-	@apply grid grid-rows-[auto_1fr];
+	@apply flex flex-col;
 }

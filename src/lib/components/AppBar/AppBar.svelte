@@ -10,6 +10,7 @@
 	leadClasses="items-center"
 	trailClasses="items-center"
 	padding="p-3"
+	classes="flex-shrink-0"
 >
 	{#snippet lead()}
 		<a href="/" class="text-lg font-bold uppercase"> Jiro </a>

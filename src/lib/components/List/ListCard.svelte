@@ -25,7 +25,7 @@
 	);
 </script>
 
-<div class="relative h-full max-h-full select-none" bind:this={node.current} {style}>
+<div class="relative h-full select-none" bind:this={node.current} {style}>
 	<div
 		class="card flex max-h-full w-72 flex-col bg-surface-800"
 		class:rotate-3={isOverlay}
@@ -42,17 +42,16 @@
 		</div>
 
 		<div
-			bind:this={taskWrapperEl}
-			class="scrollbar scrollbar-thin scrollbar-thumb-surface-500 scrollbar-track-transparent mr-1 flex-grow overflow-y-auto px-3 pr-2"
-			style="max-height: calc(100vh - 19rem);"
+			class={[
+				'scrollbar scrollbar-thin scrollbar-thumb-surface-500 scrollbar-track-transparent',
+				'mr-1 flex flex-1 flex-col gap-3 overflow-y-auto px-3 pr-2'
+			]}
 		>
-			<div class="flex flex-col gap-3">
-				<SortableContext items={list.tasks.map((t) => `task-${t.id}`)}>
-					{#each list.tasks as task (task.id)}
-						<TaskCard {task} />
-					{/each}
-				</SortableContext>
-			</div>
+			<SortableContext items={list.tasks.map((t) => `task-${t.id}`)}>
+				{#each list.tasks as task (task.id)}
+					<TaskCard {task} />
+				{/each}
+			</SortableContext>
 		</div>
 
 		<div class="m-3" class:mt-0={list.tasks?.length === 0}>

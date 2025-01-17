@@ -110,8 +110,8 @@
 	};
 </script>
 
-<div class="grid h-full grid-rows-[auto_1fr]">
-	<div class="mt-4 flex items-center justify-between">
+<div class="grid max-h-full grid-rows-[auto_1fr]">
+	<div class="flex items-center justify-between">
 		<h1 class="h5 pl-1 font-medium">{board.name}</h1>
 		<BoardPropertiesButton />
 	</div>
@@ -125,7 +125,7 @@
 		<Droppable
 			id="lists"
 			data={{ accepts: ['list'] }}
-			class="mt-8 flex items-start gap-4 overflow-x-auto"
+			class="mt-4 flex items-start gap-4 overflow-hidden"
 		>
 			<SortableContext items={board.lists.map((l) => `list-${l.id}`)}>
 				{#each board.lists as list (list.id)}

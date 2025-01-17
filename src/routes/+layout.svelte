@@ -6,6 +6,6 @@
 </script>
 
 <AppBar />
-<div class="container mx-auto p-4">
+<div class="container mx-auto min-h-0 flex-grow p-4">
 	{@render children()}
 </div>
