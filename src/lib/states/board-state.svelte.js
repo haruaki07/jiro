@@ -2,7 +2,9 @@ import { getContext, setContext } from 'svelte';
 
 /**
  * @typedef {import('@prisma/client').Task} Task
+ *
  * @typedef {import('@prisma/client').List & { tasks: Task[] }} List
+ *
  * @typedef {import('@prisma/client').Board & { lists: List[] }} Board
  */
 
@@ -10,10 +12,7 @@ class BoardState {
 	/** @type {Board} */
 	board = $state(null);
 
-	/**
-	 *
-	 * @param {Board} board
-	 */
+	/** @param {Board} board */
 	constructor(board) {
 		this.board = board;
 	}
@@ -35,14 +34,17 @@ class BoardState {
 		const list = this.board.lists.find((l) => l.id === listId);
 		list.tasks = list.tasks.filter((t) => t.id !== taskId);
 	}
+
+	updateBoard(board) {
+		this.board.name = board.name;
+		this.board.desc = board.desc;
+		this.board.updatedAt = board.updatedAt;
+	}
 }
 
 const BOARD_STATE_KEY = Symbol('BOARD');
 
-/**
- *
- * @returns {BoardState}
- */
+/** @returns {BoardState} */
 export function getBoardState() {
 	return getContext(BOARD_STATE_KEY);
 }

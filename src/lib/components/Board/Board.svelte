@@ -6,6 +6,7 @@
 	import TaskCard from '../Task/TaskCard.svelte';
 	import { dropAnimation, sensors } from './dnd';
 	import Droppable from './Droppable.svelte';
+	import BoardName from './BoardName.svelte';
 
 	/** @type {{ board: import('$lib/states/board-state.svelte').Board }} */
 	let { board } = $props();
@@ -112,7 +113,7 @@
 
 <div class="grid max-h-full grid-rows-[auto_1fr]">
 	<div class="flex items-center justify-between">
-		<h1 class="h5 pl-1 font-medium">{board.name}</h1>
+		<BoardName />
 		<BoardPropertiesButton />
 	</div>
 
