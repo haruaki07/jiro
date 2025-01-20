@@ -4,9 +4,10 @@
 	import ListCard from '$lib/components/List/ListCard.svelte';
 	import { arrayMove, DndContext, DragOverlay, SortableContext } from 'svelte-dnd-kit';
 	import TaskCard from '../Task/TaskCard.svelte';
+	import BoardName from './BoardName.svelte';
 	import { dropAnimation, sensors } from './dnd';
 	import Droppable from './Droppable.svelte';
-	import BoardName from './BoardName.svelte';
+	import { getNewOrder } from '$lib/utils';
 
 	/** @type {{ board: import('$lib/states/board-state.svelte').Board }} */
 	let { board } = $props();
@@ -51,7 +52,7 @@
 		}
 	}
 
-	function handleDragEnd({ active, over }) {
+	async function handleDragEnd({ active, over }) {
 		if (!over) return;
 
 		const { activeType, overType, acceptsTask, acceptsList } = getTypeAndAccepts(active, over);
@@ -60,7 +61,17 @@
 		if (activeType === 'list' && (overType === 'list' || acceptsList)) {
 			const oldIndex = board.lists.findIndex((list) => list.id === getId(active.id));
 			const newIndex = board.lists.findIndex((list) => list.id === getId(over.id));
+			if (oldIndex === newIndex) return;
+
+			let order = getNewOrder(board.lists, oldIndex, newIndex);
 			board.lists = arrayMove(board.lists, oldIndex, newIndex);
+			board.lists[newIndex].order = order; // update the order
+
+			await fetch(`/lists/${activeItem.id}`, {
+				method: 'PUT',
+				body: JSON.stringify({ order })
+			});
+
 			return;
 		}
 
@@ -71,20 +82,18 @@
 
 			if (!activeContainer || !overContainer) return;
 
-			// move task on the same list
 			if (activeContainer === overContainer) {
 				const oldIndex = activeContainer.tasks.findIndex((task) => task.id === getId(active.id));
 				const newIndex = activeContainer.tasks.findIndex((task) => task.id === getId(over.id));
-				activeContainer.tasks = arrayMove(activeContainer.tasks, oldIndex, newIndex);
-			} else {
-				// move task between lists
-				const task = activeContainer.tasks.find((task) => task.id === getId(active.id));
-				activeContainer.tasks = activeContainer.tasks.filter(
-					(task) => task.id !== getId(active.id)
-				);
 
-				const insertIndex = overContainer.tasks.findIndex((nested) => nested.id === getId(over.id));
-				overContainer.tasks.splice(insertIndex, 0, task);
+				let order = getNewOrder(activeContainer.tasks, oldIndex, newIndex);
+				activeContainer.tasks = arrayMove(activeContainer.tasks, oldIndex, newIndex);
+				activeContainer.tasks[newIndex].order = order; // update the order
+
+				await fetch(`/tasks/${activeItem.id}`, {
+					method: 'PUT',
+					body: JSON.stringify({ order, listId: overContainer.id })
+				});
 			}
 		}
 	}
