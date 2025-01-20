@@ -33,7 +33,11 @@
 	</div>
 
 	{#if isOpen}
-		<form action={`/boards/${boardState.board.slug}?/edit`} method="post" use:enhance={enhanceForm}>
+		<form
+			action={`/boards/${boardState.board.slug}?/description`}
+			method="post"
+			use:enhance={enhanceForm}
+		>
 			<textarea
 				class="w-full rounded-md border border-surface-500 bg-surface-900/40 text-sm placeholder:text-sm"
 				placeholder="Board description..."

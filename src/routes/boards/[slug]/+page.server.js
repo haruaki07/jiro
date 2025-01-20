@@ -5,14 +5,13 @@ import { fail } from '@sveltejs/kit';
 /** @satisfies {import('./$types').Actions} */
 export const actions = {
 	/** @param {import('@sveltejs/kit').RequestEvent} event */
-	edit: async ({ request, locals, params }) => {
+	description: async ({ request, locals, params }) => {
 		const data = await request.formData();
-		const name = data.get('name') ?? undefined;
-		const desc = data.get('desc') ?? undefined;
+		const desc = data.get('desc');
 
 		const board = await prisma.board.update({
 			where: { slug: params.slug },
-			data: { name, desc, updatedAt: new Date() }
+			data: { desc, updatedAt: new Date() }
 		});
 
 		return { success: true, board };

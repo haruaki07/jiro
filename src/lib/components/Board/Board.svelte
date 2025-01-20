@@ -61,7 +61,7 @@
 		if (activeType === 'list' && (overType === 'list' || acceptsList)) {
 			const oldIndex = board.lists.findIndex((list) => list.id === getId(active.id));
 			const newIndex = board.lists.findIndex((list) => list.id === getId(over.id));
-			if (oldIndex === newIndex) return;
+			if (oldIndex === newIndex || newIndex === -1) return;
 
 			let order = getNewOrder(board.lists, oldIndex, newIndex);
 			board.lists = arrayMove(board.lists, oldIndex, newIndex);
@@ -85,6 +85,7 @@
 			if (activeContainer === overContainer) {
 				const oldIndex = activeContainer.tasks.findIndex((task) => task.id === getId(active.id));
 				const newIndex = activeContainer.tasks.findIndex((task) => task.id === getId(over.id));
+				if (oldIndex === newIndex || newIndex === -1) return;
 
 				let order = getNewOrder(activeContainer.tasks, oldIndex, newIndex);
 				activeContainer.tasks = arrayMove(activeContainer.tasks, oldIndex, newIndex);
@@ -121,7 +122,7 @@
 </script>
 
 <div class="grid max-h-full grid-rows-[auto_1fr]">
-	<div class="flex items-center justify-between">
+	<div class="flex min-w-0 items-center justify-between">
 		<BoardName />
 		<BoardPropertiesButton />
 	</div>

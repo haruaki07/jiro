@@ -11,7 +11,7 @@
 				'Are you sure you want to delete this board? any lists, tasks, and the contents will be lost.'
 			)
 		) {
-			await fetch(`/boards/${boardState.board.slug}`, {
+			await fetch(`/api/boards/${boardState.board.id}`, {
 				method: 'DELETE'
 			});
 			goto('/');

@@ -1,17 +1,18 @@
 <script>
 	import { applyAction, deserialize } from '$app/forms';
-	import { invalidate, invalidateAll } from '$app/navigation';
+	import { invalidateAll } from '$app/navigation';
 	import { getBoardState } from '$lib/states/board-state.svelte';
 	import { tick } from 'svelte';
-	import { isKeyboardEvent } from 'svelte-dnd-kit';
+
+	let { list, ...props } = $props();
 
 	let boardState = getBoardState();
-	let isSaving = $state(false);
-	let isEditing = $state(false);
 	let textEl = $state();
 	let inputEl = $state();
-	let value = $state(boardState.board.name);
+	let value = $state(list.name);
 	let width = $state(0);
+	let isEditing = $state(false);
+	let isSaving = $state(false);
 
 	const edit = async () => {
 		isEditing = true;
@@ -21,7 +22,7 @@
 
 	const cancel = () => {
 		isEditing = false;
-		value = boardState.board.name;
+		value = list.name;
 	};
 
 	const save = async () => {
@@ -34,15 +35,15 @@
 
 			isEditing = false;
 
-			let response = await fetch(`/api/boards/${boardState.board.id}`, {
+			let response = await fetch(`/lists/${list.id}?/edit`, {
 				method: 'PUT',
 				body: JSON.stringify({ name: value })
 			});
 
-			const result = await response.json();
+			const result = deserialize(await response.text());
 
 			if (result.success) {
-				boardState.updateBoard(result.board);
+				boardState.updateList(list.id, result.list);
 			}
 		} catch (e) {
 			console.error(e);
@@ -52,7 +53,7 @@
 	};
 
 	const handleBlur = async () => {
-		if (!isSaving) save();
+		if (!isSaving) await save();
 	};
 
 	const handleKeyDown = async (e) => {
@@ -71,22 +72,22 @@
 	});
 </script>
 
-<div class="relative min-w-0 flex-grow px-2">
+<div class="relative min-w-0 flex-grow py-4 pl-5 pr-5" {...props}>
 	<input
 		bind:this={inputEl}
-		class="max-w-full rounded-md !border-0 bg-transparent p-0 text-lg font-medium outline-none hover:preset-tonal focus:ring-2 focus:ring-primary-500"
+		bind:value
+		class="max-w-full rounded-md !border-0 bg-transparent p-0 text-base font-medium outline-none hover:preset-tonal focus:ring-2 focus:ring-primary-500"
 		class:hidden={!isEditing}
 		style="width: {width}px"
-		bind:value
 		onblur={handleBlur}
 		onkeydown={handleKeyDown}
 	/>
 	<button
 		bind:this={textEl}
 		type="button"
-		class="max-w-full cursor-pointer truncate rounded-md text-left text-lg font-medium outline-none hover:preset-tonal"
-		class:absolute={isEditing}
+		class="block max-w-full truncate text-base font-medium"
 		class:invisible={isEditing}
+		class:absolute={isEditing}
 		onclick={edit}
 	>
 		{value}

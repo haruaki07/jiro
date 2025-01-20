@@ -40,6 +40,15 @@ class BoardState {
 		this.board.desc = board.desc;
 		this.board.updatedAt = board.updatedAt;
 	}
+
+	updateList(listId, newList) {
+		const index = this.board.lists.findIndex((l) => l.id === listId);
+		const list = this.board.lists[index];
+
+		list.name = newList.name;
+		list.order = newList.order;
+		list.updatedAt = newList.updatedAt;
+	}
 }
 
 const BOARD_STATE_KEY = Symbol('BOARD');

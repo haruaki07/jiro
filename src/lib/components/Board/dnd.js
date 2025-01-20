@@ -1,11 +1,19 @@
 import {
 	defaultDropAnimationSideEffects,
 	MouseSensor,
+	PointerSensor,
 	useSensor,
 	useSensors
 } from 'svelte-dnd-kit';
 
-export const sensors = useSensors(useSensor(MouseSensor));
+const pointerSensor = useSensor(PointerSensor, {
+	activationConstraint: {
+		distance: 0.01
+	}
+});
+const mouseSensor = useSensor(MouseSensor);
+
+export const sensors = useSensors(mouseSensor, pointerSensor);
 
 export const dropAnimation = {
 	sideEffects: defaultDropAnimationSideEffects({
