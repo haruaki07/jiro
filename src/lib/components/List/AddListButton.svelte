@@ -69,7 +69,7 @@
 {:else}
 	<button
 		type="button"
-		class="btn w-80 flex-shrink-0 justify-start text-surface-200 hover:text-white hover:preset-tonal"
+		class="btn w-72 flex-shrink-0 justify-start text-surface-200 hover:text-white hover:preset-tonal"
 		onclick={open}
 	>
 		<Plus size={20} />
